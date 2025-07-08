@@ -34,6 +34,12 @@ Below are screenshots of:
 
 ![VS Code Project Structure](./screenshots/vue-vscode-structure.jpg)
 
+### Notesapp Layout Preview
+
+This screenshot shows the visual layout of the app with static note cards and modal UI.
+
+![Layout Preview](./screenshots/notesapp-layout-preview.jpg)
+
 ---
 
 **Author:** Yazhao Huang  
