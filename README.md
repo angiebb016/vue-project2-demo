@@ -34,6 +34,13 @@ Below are screenshots of:
 
 ![VS Code Project Structure](./screenshots/vue-vscode-structure.jpg)
 
+## Step 2: Set Up the Basic UI
+
+In this step:
+I added the layout for the app in App.vue, including a modal and a couple of static note cards.
+Styled the page directly inside App.vue with scoped styles to make sure layout and appearance are consistent.
+Deleted old contents of main.css, since we no longer need the previous global styles.
+
 ### Notesapp Layout Preview
 
 This screenshot shows the visual layout of the app with static note cards and modal UI.
