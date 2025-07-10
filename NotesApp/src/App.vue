@@ -2,7 +2,24 @@
   import { ref } from 'vue';
 
   const showModal = ref(false)
-  const newNote = ref("Hello World");
+  const newNote = ref("")
+  const notes = ref([])
+
+  function getRandomColor() {
+    const color = "hsl(" + Math.random() * 360 + ", 100%, 75%)";
+    return color;
+  }
+
+  const addNote = () => {
+    notes.value.push({
+      id: Math.floor(Math.random() * 100000),
+      text: newNote.value,
+      date: new Date(),
+      color: getRandomColor()
+    });
+    showModal.value = false;
+    newNote.value = ""
+  }
 
 </script>
 
@@ -12,7 +29,7 @@
       <div class="modal">
         {{ newNote }}
         <textarea v-model="newNote" name="note" id="note" cols="30" rows="10"></textarea>
-        <button>Add Note</button>
+        <button @click="addNote">Add Note</button>
         <button class="close" @click="showModal = false">Close</button>
       </div>
     </div>
@@ -22,13 +39,9 @@
         <button @click="showModal = true">+</button>
       </header>
       <div class="cards-container">
-        <div class="card">
-          <p class="main-text">lorem15</p>
-          <p class="date">08/07/2025</p>
-        </div>
-          <div class="card">
-          <p class="main-text">lorem15</p>
-          <p class="date">08/07/2025</p>
+        <div v-for="note in notes" class="card" :style="{backgroundColor: note.color}">
+          <p class="main-text">{{ note.text }}</p>
+          <p class="date">{{ note.date.toLocaleDateString("en-US") }}</p>
         </div>
       </div>
     </div>
