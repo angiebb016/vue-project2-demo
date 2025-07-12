@@ -2,8 +2,9 @@
   import { ref } from 'vue';
 
   const showModal = ref(false)
-  const newNote = ref("")
-  const notes = ref([])
+  const newNote = ref("");
+  const errorMessage = ref("")
+  const notes = ref([]);
 
   function getRandomColor() {
     const color = "hsl(" + Math.random() * 360 + ", 100%, 75%)";
@@ -11,6 +12,9 @@
   }
 
   const addNote = () => {
+    if(newNote.value.length < 10) {
+      return errorMessage.value = "Note needs to be 10 characters or more.";
+    }
     notes.value.push({
       id: Math.floor(Math.random() * 100000),
       text: newNote.value,
@@ -19,6 +23,7 @@
     });
     showModal.value = false;
     newNote.value = ""
+    errorMessage.value = ""
   }
 
 </script>
@@ -28,7 +33,8 @@
     <div v-if="showModal" class="overlay">
       <div class="modal">
         {{ newNote }}
-        <textarea v-model="newNote" name="note" id="note" cols="30" rows="10"></textarea>
+        <textarea v-model.trim="newNote" name="note" id="note" cols="30" rows="10"></textarea>
+        <p v-if="errorMessage">{{ errorMessage }}</p>
         <button @click="addNote">Add Note</button>
         <button class="close" @click="showModal = false">Close</button>
       </div>
@@ -39,7 +45,11 @@
         <button @click="showModal = true">+</button>
       </header>
       <div class="cards-container">
-        <div v-for="note in notes" class="card" :style="{backgroundColor: note.color}">
+        <div 
+        v-for="note in notes" 
+        :key="note.id"
+        class="card" 
+        :style="{backgroundColor: note.color}">
           <p class="main-text">{{ note.text }}</p>
           <p class="date">{{ note.date.toLocaleDateString("en-US") }}</p>
         </div>
@@ -79,9 +89,19 @@
     height: 50px;
     cursor: pointer;
     background-color: rgb(21,20,20);
-    border-radius: 100%;
+    border-radius: 1000px;
     color: white;
     font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
   }
 
   .card {
@@ -97,9 +117,15 @@
     margin-bottom: 20px;
   }
 
+  .main-text {
+    line-height: 1.25;
+    font-size: 17.5px;
+    font-weight: bold;
+  }
+
   .date {
     font-size: 12.5px;
-    font-weight: bold;
+    font-weight: auto;
   }
 
   .cards-container {
@@ -119,7 +145,7 @@
   }
 
   .modal {
-    width: 750;
+    width: 750px;
     background-color: white;
     border-radius: 10px;
     padding: 30px;
@@ -142,5 +168,9 @@
   .modal .close {
     background-color: rgb(213, 11, 11);
     margin-top: 7px;
+  }
+
+  .modal p {
+    color: rgb(213, 11, 11)
   }
 </style>
